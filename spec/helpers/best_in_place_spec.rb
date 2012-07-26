@@ -328,6 +328,25 @@ describe BestInPlace::BestInPlaceHelpers do
         end
       end
     end
+
+    context "with a lazy loaded select attribute" do
+      before do
+        nk = Nokogiri::HTML.parse(helper.best_in_place @user, :country, :type => :select, :load_collection_url => '/get/data/path', :selected_option => 'SelectedOption')
+        @span = nk.css("span")
+      end
+
+      it "should show the selected option" do
+        @span.text.should == "SelectedOption"
+      end
+
+      it "should have a select data-type" do
+        @span.attribute("data-type").value.should == "select"
+      end
+
+      it "should have a proper data collection url" do
+        @span.attribute("data-load_collection_url").value.should == "/get/data/path"
+      end
+	end
   end
 
   describe "#best_in_place_if" do

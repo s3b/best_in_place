@@ -23,6 +23,9 @@ module BestInPlace
         value = Hash[opts[:collection]][!!(v =~ /^[0-9]+$/) ? v.to_i : v]
         collection = opts[:collection].to_json
       end
+      if opts[:type] == :select && !opts[:selected_option].blank?
+        value = opts[:selected_option]
+      end
       if opts[:type] == :checkbox
         fieldValue = !!real_object.send(field)
         if opts[:collection].blank? || opts[:collection].size != 2
@@ -45,6 +48,8 @@ module BestInPlace
       out << " data-inner-class='#{opts[:inner_class]}'" if opts[:inner_class]
       out << " data-html-attrs='#{opts[:html_attrs].to_json}'" unless opts[:html_attrs].blank?
       out << " data-original-content='#{attribute_escape(real_object.send(field))}'" if opts[:display_as] || opts[:display_with]
+      out << " data-load_collection_url='#{opts[:load_collection_url]}'"
+      out << " data-selected_option='#{opts[:selected_option]}'"
       if opts[:data] && opts[:data].is_a?(Hash)
         opts[:data].each do |k, v|
           if !v.is_a?(String) && !v.is_a?(Symbol)

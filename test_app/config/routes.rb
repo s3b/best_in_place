@@ -1,5 +1,8 @@
 BipApp::Application.routes.draw do
   resources :users do
+  	collection do
+	  get :get_countries
+	end
     member do
       put :test_respond_with
       get :double_init

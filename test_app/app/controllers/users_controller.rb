@@ -96,4 +96,8 @@ class UsersController < ApplicationController
       format.xml  { head :ok }
     end
   end
+
+  def get_countries
+  	render :json => COUNTRIES.to_a
+  end
 end
